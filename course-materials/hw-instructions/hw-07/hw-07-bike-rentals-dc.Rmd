@@ -5,7 +5,7 @@ output:
     css: ../hw.css
     tufte_variant: "envisioned"
     highlight: pygments
-link-citations: yes
+link-citations: true
 ---
 
 ```{r include = FALSE}
@@ -94,8 +94,8 @@ The original data sources are <http://capitalbikeshare.com/system-data> and <htt
 7.  Recreate the following visualization, and interpret it in context of the data. **Hint:** You will need to use one of the variables you created above. The temperature plotted is the feeling temperature.
 
 ```{r fig.fullwidth = TRUE, echo=FALSE, eval=TRUE}
-dcbikeshare %>%
-  mutate(atemp_raw = atemp * 50) %>%
+dcbikeshare |>
+  mutate(atemp_raw = atemp * 50) |>
   ggplot(mapping = aes(x = dteday, y = cnt, color = atemp_raw)) +
     geom_point(alpha = 0.7) +
     labs(

@@ -5,7 +5,7 @@ output:
     css: ../lab.css
     tufte_variant: "envisioned"
     highlight: pygments
-link-citations: yes
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
@@ -104,8 +104,8 @@ pivot_longer(data, cols, names_to = "name")
 -   The third argument, `names_to`, is a string specifying the name of the column to create from the data stored in the column names of data -- in this case `year`
 
 ```{r}
-staff_long <- staff %>%
-  pivot_longer(cols = -faculty_type, names_to = "year") %>%
+staff_long <- staff |>
+  pivot_longer(cols = -faculty_type, names_to = "year") |>
   mutate(year = as.numeric(year))
 ```
 
@@ -119,7 +119,7 @@ And now let's plot is as a line plot.
 A possible approach for creating a line plot where we color the lines by faculty type is the following:
 
 ```{r fig.width = 10, fig.fullwidth = TRUE}
-staff_long %>%
+staff_long |>
   ggplot(aes(x = year, y = value, color = faculty_type)) +
   geom_line()
 ```
@@ -129,7 +129,7 @@ The message is saying that there is only one observation for each faculty type y
 We can fix this using the `group` aesthetic following.
 
 ```{r fig.width = 10, fig.fullwidth = TRUE}
-staff_long %>%
+staff_long |>
   ggplot(aes(x = year, y = value, group = faculty_type, color = faculty_type)) +
   geom_line()
 ```

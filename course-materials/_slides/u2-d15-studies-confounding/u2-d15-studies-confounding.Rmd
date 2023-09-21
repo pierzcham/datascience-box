@@ -163,16 +163,16 @@ yougov_climate_table <- read_csv("data/yougov-climate.csv")
 
 response_levels <- names(yougov_climate_table)[-1]
 
-yougov_climate <- yougov_climate_table %>%
-  pivot_longer(cols = -country, names_to = "response", values_to = "count") %>%
-  uncount(count) %>%
+yougov_climate <- yougov_climate_table |>
+  pivot_longer(cols = -country, names_to = "response", values_to = "count") |>
+  uncount(count) |>
   mutate(response = fct_relevel(response, response_levels))
 ```
 
 ```{r climate-table, echo=FALSE}
-table(yougov_climate) %>% 
-  stats::addmargins() %>%
-  knitr::kable(format = "html", booktabs = TRUE) %>%
+table(yougov_climate) |> 
+  stats::addmargins() |>
+  knitr::kable(format = "html", booktabs = TRUE) |>
   kableExtra::column_spec(column = 2:5, width = "0.5 in")
 ```
 ]

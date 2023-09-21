@@ -114,7 +114,7 @@ glance(model)
 ```{r recode-species, echo = FALSE}
 # In this chunk I'm doing a bunch of analysis that I don't want to present 
 # in my slides. But I need the resulting data frame for a plot I want to present.
-iris_modified <- iris %>%
+iris_modified <- iris |>
   mutate(Species = fct_other(Species, keep = "setosa"))
 ```
 

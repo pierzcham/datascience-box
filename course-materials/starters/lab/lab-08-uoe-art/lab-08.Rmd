@@ -20,9 +20,9 @@ uoe_art <- read_csv("data/uoe-art.csv")
 ### Exercise 9
 
 ````r
-uoe_art <- uoe_art %>%
-  separate(title, into = c("title", "date"), sep = "\\(") %>%
-  mutate(year = str_remove(date, "\\)") %>% as.numeric()) %>%
+uoe_art <- uoe_art |>
+  separate(title, into = c("title", "date"), sep = "\\(") |>
+  mutate(year = str_remove(date, "\\)") |> as.numeric()) %>%
   select(title, artist, year, ___)
 ````
 

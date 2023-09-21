@@ -6,7 +6,7 @@ output:
     tufte_variant: "envisioned"
     highlight: pygments
     css: ../lab.css
-link-citations: yes
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
@@ -73,7 +73,7 @@ You can find out more about the dataset by inspecting their documentation, which
 5.  Create a visualization depicting the relationship between smoking status and health outcome. Briefly describe the relationship, and evaluate whether this meets your expectations. Additionally, calculate the relevant conditional probabilities to help your narrative. Here is some code to get you started:
 
 ```{r}
-Whickham %>%
+Whickham |>
   count(smoker, outcome)
 ```
 
@@ -86,7 +86,7 @@ Whickham %>%
 7.  Re-create the visualization depicting the relationship between smoking status and health outcome, faceted by `age_cat`. What changed? What might explain this change? Extend the contingency table from earlier by breaking it down by age category and use it to help your narrative.
 
 ```{r}
-Whickham %>%
+Whickham |>
   count(smoker, age_cat, outcome)
 ```
 

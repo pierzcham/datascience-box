@@ -6,7 +6,7 @@ output:
     tufte_variant: "envisioned"
     highlight: pygments
     css: ../lab.css
-link-citations: yes
+link-citations: true
 ---
 
 ```{r include=FALSE}
@@ -117,8 +117,8 @@ Plotting the data is a useful first step because it helps us quickly visualize t
 The box plots show how the medians of the two distributions compare, but we can also compare the means of the distributions using the following to first group the data by the `habit` variable, and then calculate the mean `weight` in these groups using.
 
 ```{r habit-means, eval=FALSE}
-ncbirths_habitgiven %>%
-  group_by(habit) %>%
+ncbirths_habitgiven |>
+  group_by(habit) |>
   summarise(mean_weight = mean(weight))
 ```
 

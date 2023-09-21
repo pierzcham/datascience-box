@@ -58,7 +58,7 @@ organ_donor <- tibble(
 ```
 
 ```{r message=FALSE}
-organ_donor %>%
+organ_donor |>
   count(outcome)
 ```
 
@@ -251,16 +251,16 @@ We need a way to automate this process!
 
 .small[
 ```{r}
-null_dist <- organ_donor %>%
-  specify(response = outcome, success = "complication") %>%
-  hypothesize(null = "point", p = c("complication" = 0.10, "no complication" = 0.90)) %>% 
-  generate(reps = 100, type = "simulate") %>% 
+null_dist <- organ_donor |>
+  specify(response = outcome, success = "complication") |>
+  hypothesize(null = "point", p = c("complication" = 0.10, "no complication" = 0.90)) |> 
+  generate(reps = 100, type = "simulate") |> 
   calculate(stat = "prop")
 ```
 ]
 
 ```{r echo=FALSE}
-null_dist %>% 
+null_dist |> 
   mutate(
     replicate = as.numeric(replicate),
     stat = round(stat, 3)
@@ -304,8 +304,8 @@ ggplot(data = null_dist, mapping = aes(x = stat)) +
 ## Calculating the p-value, directly
 
 ```{r}
-null_dist %>%
-  filter(stat <= (3/62)) %>%
+null_dist |>
+  filter(stat <= (3/62)) |>
   summarise(p_value = n()/nrow(null_dist))
 ```
 
@@ -347,10 +347,10 @@ These data do not provide convincing evidence that this consultant incurs a lowe
 
 .small[
 ```{r}
-null_dist <- organ_donor %>%
-  specify(response = outcome, success = "complication") %>%
-  hypothesize(null = "point", p = c("complication" = 0.10, "no complication" = 0.90)) %>% 
-  generate(reps = 1000, type = "simulate") %>% 
+null_dist <- organ_donor |>
+  specify(response = outcome, success = "complication") |>
+  hypothesize(null = "point", p = c("complication" = 0.10, "no complication" = 0.90)) |> 
+  generate(reps = 1000, type = "simulate") |> 
   calculate(stat = "prop")
 ```
 ]
@@ -365,8 +365,8 @@ ggplot(data = null_dist, mapping = aes(x = stat)) +
   geom_histogram(binwidth = 0.01) +
   geom_vline(xintercept = 3/62, color = "red")
 
-null_dist %>%
-  filter(stat <= 3/62) %>%
+null_dist |>
+  filter(stat <= 3/62) |>
   summarise(p_value = n()/nrow(null_dist))
 ```
 ]
@@ -435,7 +435,7 @@ In this study 50 people were randomly assigned to two groups: 34 to a group wher
 The data are in the **openintro** package: `yawn`
 
 ```{r}
-yawn %>%
+yawn |>
   count(group, result)
 ```
 
@@ -445,9 +445,9 @@ yawn %>%
 
 .small[
 ```{r}
-yawn %>%
-  count(group, result) %>%
-  group_by(group) %>%
+yawn |>
+  count(group, result) |>
+  group_by(group) |>
   mutate(p_hat = n / sum(n))
 ```
 ]
@@ -466,9 +466,9 @@ Based on the proportions we calculated, do you think yawning is really contagiou
 ]
 
 ```{r echo=FALSE}
-yawn %>%
-  count(group, result) %>%
-  group_by(group) %>%
+yawn |>
+  count(group, result) |>
+  group_by(group) |>
   mutate(p_hat = n / sum(n))
 ```
 
@@ -542,11 +542,11 @@ Do the simulation results suggest that yawning is contagious, i.e. does seeing s
 ## Simulation by computation
 
 ```{r}
-null_dist <- yawn %>%
+null_dist <- yawn |>
   specify(response = result, explanatory = group, 
-          success = "yawn") %>%
-  hypothesize(null = "independence") %>%
-  generate(100, type = "permute") %>%
+          success = "yawn") |>
+  hypothesize(null = "independence") |>
+  generate(100, type = "permute") |>
   calculate(stat = "diff in props", 
             order = c("trmt", "ctrl"))
 ```
@@ -561,7 +561,7 @@ null_dist <- yawn %>%
     - **Since the response variable is categorical, specify the level which should be considered as "success"**
 
 ```{r eval=FALSE}
-yawn %>%
+yawn |>
 {{  specify(response = result, explanatory = group, 
           success = "yawn") }}
 ```
@@ -578,9 +578,9 @@ yawn %>%
 - **State the null hypothesis (yawning and whether or not you see someone yawn are independent)**
 
 ```{r eval=FALSE}
-yawn %>%
+yawn |>
   specify(response = result, explanatory = group, 
-          success = "yawn") %>%
+          success = "yawn") |>
 {{ hypothesize(null = "independence") }}
 ```
 ]
@@ -597,10 +597,10 @@ yawn %>%
 - **Generate simulated differences via permutation**
 
 ```{r eval=FALSE}
-yawn %>%
+yawn |>
   specify(response = result, explanatory = group, 
-          success = "yawn") %>%
-  hypothesize(null = "independence") %>%
+          success = "yawn") |>
+  hypothesize(null = "independence") |>
 {{ generate(100, type = "permute") }}
 ```
 ]
@@ -619,11 +619,11 @@ yawn %>%
     - **Since the explanatory variable is categorical, specify the order in which the subtraction should occur for the calculation of the sample statistic, $(\hat{p}_{treatment} - \hat{p}_{control})$.**
     
 ```{r eval=FALSE}
-yawn %>%
+yawn |>
   specify(response = result, explanatory = group, 
-          success = "yawn") %>%
-  hypothesize(null = "independence") %>%
-  generate(100, type = "permute") %>%
+          success = "yawn") |>
+  hypothesize(null = "independence") |>
+  generate(100, type = "permute") |>
 {{ calculate(stat = "diff in props", 
            order = c("trmt", "ctrl")) }}
 ```
@@ -644,11 +644,11 @@ yawn %>%
     - Since the explanatory variable is categorical, specify the order in which the subtraction should occur for the calculation of the sample statistic, $(\hat{p}_{treatment} - \hat{p}_{control})$.
     
 ````r
-{{null_dist <- yawn %>% }}
+{{null_dist <- yawn |> }}
   specify(response = outcome, explanatory = group, 
-          success = "yawn") %>%
-  hypothesize(null = "independence") %>%
-  generate(100, type = "permute") %>%
+          success = "yawn") |>
+  hypothesize(null = "independence") |>
+  generate(100, type = "permute") |>
   calculate(stat = "diff in props", 
             order = c("treatment", "control"))
 ````
@@ -691,8 +691,8 @@ ggplot(data = null_dist, mapping = aes(x = stat)) +
 ## Calculating the p-value, directly
 
 ```{r}
-null_dist %>%
-  filter(stat >= 0.0441) %>%
+null_dist |>
+  filter(stat >= 0.0441) |>
   summarise(p_value = n()/nrow(null_dist))
 ```
 

@@ -63,9 +63,9 @@ The data come from the openintro package: [`elmhurst`](http://openintrostat.gith
 .pull-left[
 .small[
 ```{r}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurst) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurst) |>
   tidy()
 ```
 ]
@@ -92,9 +92,9 @@ ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
 
 .pull-left-wide[
 ```{r elmhurst-fit, echo=FALSE}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurst) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurst) |>
   tidy()
 ```
 ]
@@ -273,13 +273,13 @@ class: middle
 ---
 
 ```{r echo=FALSE}
-elmhurst_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurst) %>%
+elmhurst_fit <- linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurst) |>
   tidy() 
-elmhurst_slope_obs <- elmhurst_fit %>%
-  filter(term == "family_income") %>%
-  pull(estimate) %>%
+elmhurst_slope_obs <- elmhurst_fit |>
+  filter(term == "family_income") |>
+  pull(estimate) |>
   round(4)
 ```
 
@@ -307,9 +307,9 @@ ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
 Generated assuming there are more students like the ones in the observed sample...
 
 ```{r echo=FALSE, warning=FALSE}
-elmhurst %>%
-  specify(gift_aid ~ family_income) %>%
-  generate(reps = 50, type = "bootstrap") %>%
+elmhurst |>
+  specify(gift_aid ~ family_income) |>
+  generate(reps = 50, type = "bootstrap") |>
   ggplot(aes(x = family_income, y = gift_aid)) +
   geom_jitter(alpha = 0.11, width = 30, height = 10) +
   geom_point(data = elmhurst, mapping = aes(x = family_income, y = gift_aid), color = "#8E2C90", size = 2) +
@@ -344,18 +344,18 @@ elmhurst %>%
 ## Bootstrap sample 1
 
 ```{r}
-elmhurtst_boot_1 <- elmhurst %>%
+elmhurtst_boot_1 <- elmhurst |>
   slice_sample(n = 50, replace = TRUE)
 ```
 
 
 ```{r echo=FALSE}
-elmhurtst_boot_1_slope <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurtst_boot_1) %>%
-  tidy() %>%
-  filter(term == "family_income") %>%
-  pull(estimate) %>%
+elmhurtst_boot_1_slope <- linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurtst_boot_1) |>
+  tidy() |>
+  filter(term == "family_income") |>
+  pull(estimate) |>
   round(4)
 
 ggplot(elmhurtst_boot_1, aes(x = family_income, y = gift_aid)) +
@@ -376,18 +376,18 @@ ggplot(elmhurtst_boot_1, aes(x = family_income, y = gift_aid)) +
 ## Bootstrap sample 2
 
 ```{r}
-elmhurtst_boot_2 <- elmhurst %>%
+elmhurtst_boot_2 <- elmhurst |>
   slice_sample(n = 50, replace = TRUE)
 ```
 
 
 ```{r echo=FALSE}
-elmhurtst_boot_2_slope <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurtst_boot_2) %>%
-  tidy() %>%
-  filter(term == "family_income") %>%
-  pull(estimate) %>%
+elmhurtst_boot_2_slope <- linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurtst_boot_2) |>
+  tidy() |>
+  filter(term == "family_income") |>
+  pull(estimate) |>
   round(4)
 
 ggplot(elmhurtst_boot_2, aes(x = family_income, y = gift_aid)) +
@@ -408,18 +408,18 @@ ggplot(elmhurtst_boot_2, aes(x = family_income, y = gift_aid)) +
 ## Bootstrap sample 3
 
 ```{r}
-elmhurtst_boot_3 <- elmhurst %>%
+elmhurtst_boot_3 <- elmhurst |>
   slice_sample(n = 50, replace = TRUE)
 ```
 
 
 ```{r echo=FALSE}
-elmhurtst_boot_3_slope <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurtst_boot_3) %>%
-  tidy() %>%
-  filter(term == "family_income") %>%
-  pull(estimate) %>%
+elmhurtst_boot_3_slope <- linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurtst_boot_3) |>
+  tidy() |>
+  filter(term == "family_income") |>
+  pull(estimate) |>
   round(4)
 
 ggplot(elmhurtst_boot_3, aes(x = family_income, y = gift_aid)) +
@@ -440,18 +440,18 @@ ggplot(elmhurtst_boot_3, aes(x = family_income, y = gift_aid)) +
 ## Bootstrap sample 4
 
 ```{r}
-elmhurtst_boot_4 <- elmhurst %>%
+elmhurtst_boot_4 <- elmhurst |>
   slice_sample(n = 50, replace = TRUE)
 ```
 
 
 ```{r echo=FALSE}
-elmhurtst_boot_4_slope <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(gift_aid ~ family_income, data = elmhurtst_boot_4) %>%
-  tidy() %>%
-  filter(term == "family_income") %>%
-  pull(estimate) %>%
+elmhurtst_boot_4_slope <- linear_reg() |>
+  set_engine("lm") |>
+  fit(gift_aid ~ family_income, data = elmhurtst_boot_4) |>
+  tidy() |>
+  filter(term == "family_income") |>
+  pull(estimate) |>
   round(4)
 
 ggplot(elmhurtst_boot_4, aes(x = family_income, y = gift_aid)) +
@@ -505,15 +505,15 @@ we could keep going...
 ## Many many samples...
 
 ```{r echo=FALSE}
-elmhurst_resamples <- elmhurst %>%
-  specify(gift_aid ~ family_income) %>% 
+elmhurst_resamples <- elmhurst |>
+  specify(gift_aid ~ family_income) |> 
   generate(reps = 1000, type = "bootstrap")
 
-elmhurst_models <- elmhurst_resamples %>%
+elmhurst_models <- elmhurst_resamples |>
   fit()
 
-elmhurst_models_100 <- elmhurst_models %>%
-  filter(replicate <= 100) %>%
+elmhurst_models_100 <- elmhurst_models |>
+  filter(replicate <= 100) |>
   pivot_wider(names_from = term, values_from  = estimate)
 
 ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
@@ -534,7 +534,7 @@ ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
 ## Slopes of bootstrap samples
 
 ```{r echo=FALSE}
-elmhurst_boot_dist <- elmhurst_resamples %>%
+elmhurst_boot_dist <- elmhurst_resamples |>
   calculate(stat = "slope")
 
 ggplot(elmhurst_boot_dist, aes(stat)) +
@@ -547,7 +547,7 @@ ggplot(elmhurst_boot_dist, aes(stat)) +
 ## 95% confidence interval
 
 ```{r echo=FALSE}
-elmhurst_ci <- elmhurst_boot_dist %>%
+elmhurst_ci <- elmhurst_boot_dist |>
   get_ci()
 
 visualize(elmhurst_boot_dist) +

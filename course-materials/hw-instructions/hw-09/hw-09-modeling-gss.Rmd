@@ -5,7 +5,7 @@ output:
     css: ../hw.css
     tufte_variant: "envisioned"
     highlight: pygments
-link-citations: yes
+link-citations: true
 ---
 
 ```{r include = FALSE}
@@ -80,8 +80,8 @@ You can do this in various ways. One option is to use the `str_detect()` functio
 3.  Create a new data frame called `gss16_advfront` that includes the variables `advfront`, `educ`, `polviews`, and `wrkstat`. Then, use the `drop_na()` function to remove rows that contain `NA`s from this new data frame. Sample code is provided below.
 
 ```{r eval=FALSE}
-gss16_advfront <- gss16 %>%
-  select(___, ___, ___, ___) %>%
+gss16_advfront <- gss16 |>
+  select(___, ___, ___, ___) |>
   drop_na()
 ```
 
@@ -103,23 +103,23 @@ gss16_test  <- testing(gss16_split)
     -   `step_dummy()` to create dummy variables for `all_nominal()` variables that are predictors, i.e. `all_predictors()`
 
 ```{r eval=FALSE}
-gss16_rec_1 <- recipe(___ ~ ___, data = ___) %>%
-  step_other(wrkstat, threshold = ___, other = "Other") %>%
+gss16_rec_1 <- recipe(___ ~ ___, data = ___) |>
+  step_other(wrkstat, threshold = ___, other = "Other") |>
   step_dummy(all_nominal(), -all_outcomes())
 ```
 
 6.  Specify a logistic regression model using `"glm"` as the engine. Name this specification `gss16_spec`. Sample code is provided below.
 
 ```{r eval=FALSE}
-gss16_spec <- ___() %>%
+gss16_spec <- ___() |>
   set_engine("___")
 ```
 
 7.  Build a workflow that uses the recipe you defined (`gss16_rec`) and the model you specified (`gss16_spec`). Name this workflow `gss16_wflow_1`. Sample code is provided below.
 
 ```{r eval=FALSE}
-gss16_wflow_1 <- workflow() %>%
-  add_model(___) %>%
+gss16_wflow_1 <- workflow() |>
+  add_model(___) |>
   add_recipe(___)
 ```
 
@@ -138,7 +138,7 @@ gss16_wflow_1 <- workflow() %>%
 set.seed(___)
 gss16_folds <- vfold_cv(___, v = ___)
 
-gss16_fit_rs_1 <- gss16_wflow_1 %>%
+gss16_fit_rs_1 <- gss16_wflow_1 |>
   fit_resamples(___)
 
 collect_metrics(___, summarize = FALSE)
@@ -161,10 +161,10 @@ collect_metrics(___)
     Note: If you haven't yet done so, you'll need to first train your workflows on the training data with the following, and then use these fit objects to calculate predictions for the test data.
 
 ```{r eval=FALSE}
-gss16_fit_1 <- gss16_wflow_1 %>%
+gss16_fit_1 <- gss16_wflow_1 |>
   fit(gss16_train)
 
-gss16_fit_2 <- gss16_wflow_2 %>%
+gss16_fit_2 <- gss16_wflow_2 |>
   fit(gss16_train)
 ```
 

@@ -27,7 +27,7 @@ Remove this text, and add your answer for Exercise 2 here.
 Remove this text, and add your answer for Exercise 3 here.
 
 ```{r most-common-names}
-seattlepets %>%
+seattlepets |>
   count(animal_name, sort = TRUE)
 ```
 

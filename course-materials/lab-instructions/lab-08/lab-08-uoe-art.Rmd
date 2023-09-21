@@ -5,7 +5,7 @@ output:
     css: ../lab.css
     tufte_variant: "envisioned"
     highlight: pygments
-link-citations: yes
+link-citations: true
 ---
 
 ```{r setup, include=FALSE}
@@ -143,17 +143,17 @@ knitr::include_graphics("img/iteminfo-h3a.gif")
 ```
 
 ```{r}
-page %>%
-  html_nodes(".iteminfo") %>%
+page |>
+  html_nodes(".iteminfo") |>
   html_node("h3 a")
 ```
 
 Then we extract the text with `html_text()`:
 
 ```{r}
-page %>%
-  html_nodes(".iteminfo") %>%
-  html_node("h3 a") %>%
+page |>
+  html_nodes(".iteminfo") |>
+  html_node("h3 a") |>
   html_text()
 ```
 
@@ -164,20 +164,20 @@ Take a look at the help for `str_squish()` to find out more about how it works a
 ```
 
 ```{r}
-page %>%
-  html_nodes(".iteminfo") %>%
-  html_node("h3 a") %>%
-  html_text() %>%
+page |>
+  html_nodes(".iteminfo") |>
+  html_node("h3 a") |>
+  html_text() |>
   str_squish()
 ```
 
 And finally save the resulting data as a vector of length 10:
 
 ```{r}
-titles <- page %>%
-  html_nodes(".iteminfo") %>%
-  html_node("h3 a") %>%
-  html_text() %>%
+titles <- page |>
+  html_nodes(".iteminfo") |>
+  html_node("h3 a") |>
+  html_text() |>
   str_squish()
 ```
 
@@ -198,9 +198,9 @@ Here the text is `Seach on Google` and the `href` attribute contains the url of 
 The moral of the story is: the link is stored in the `href` attribute.
 
 ```{r}
-page %>%
-  html_nodes(".iteminfo") %>%   # same nodes
-  html_node("h3 a") %>%         # as before
+page |>
+  html_nodes(".iteminfo") |>   # same nodes
+  html_node("h3 a") |>         # as before
   html_attr("href")             # but get href attribute instead of text
 ```
 

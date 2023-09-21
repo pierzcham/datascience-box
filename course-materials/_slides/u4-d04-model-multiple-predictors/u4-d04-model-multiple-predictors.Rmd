@@ -44,7 +44,7 @@ The `allbacks` data frame gives measurements on the volume and weight of 15 book
 .small[
 ```{r echo=FALSE}
 library(DAAG)
-as_tibble(allbacks) %>%
+as_tibble(allbacks) |>
   print(n = 15)
 ```
 ]
@@ -62,9 +62,9 @@ These books are from the bookshelf of J. H. Maindonald at Australian National Un
 
 .pull-left[
 ```{r}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(weight ~ volume, data = allbacks) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(weight ~ volume, data = allbacks) |>
   tidy()
 ```
 ]
@@ -81,9 +81,9 @@ ggplot(allbacks, aes(x = volume, y = weight)) +
 
 .pull-left[
 ```{r}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(weight ~ volume + cover, data = allbacks) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(weight ~ volume + cover, data = allbacks) |>
   tidy()
 ```
 ]
@@ -101,9 +101,9 @@ ggplot(allbacks, aes(x = volume, y = weight, color = cover, shape = cover)) +
 ## Interpretation of estimates
 
 ```{r echo=FALSE}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(weight ~ volume + cover, data = allbacks) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(weight ~ volume + cover, data = allbacks) |>
   tidy()
 ```
 
@@ -135,13 +135,13 @@ increases would be different for hardback and paperback books.
 ---
 
 ```{r book-main-int, echo=FALSE, out.width="65%", fig.asp = 0.8}
-book_main_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+book_main_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(weight ~ volume + cover, data = allbacks)
 book_main_fit_aug <- augment(book_main_fit$fit)
 
-book_int_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+book_int_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(weight ~ volume + cover + volume*cover, data = allbacks)
 book_int_fit_aug <- augment(book_int_fit$fit)
 

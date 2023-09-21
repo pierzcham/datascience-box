@@ -148,23 +148,23 @@ knitr::include_graphics("img/painting3.png")
 ---
 
 ```{r results="hide"}
-pp %>%
-  filter(name == "R1777-89a") %>%
+pp |>
+  filter(name == "R1777-89a") |>
   glimpse()
 ```
 
 .small[
 .pull-left[
 ```{r output.lines=23, echo=FALSE}
-pp %>%
-  filter(name == "R1777-89a") %>%
+pp |>
+  filter(name == "R1777-89a") |>
   glimpse()
 ```
 ]
 .pull-right[
 ```{r output.lines=24:44, echo=FALSE}
-pp %>%
-  filter(name == "R1777-89a") %>%
+pp |>
+  filter(name == "R1777-89a") |>
   glimpse()
 ```
 ]
@@ -369,12 +369,12 @@ ggplot(data = pp, aes(x = Width_in, y = Height_in)) +
 .panel[.panel-name[Code]
 .small[
 ```{r height-width-plot-residuals, fig.show="hide", warning=FALSE}
-ht_wt_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+ht_wt_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(Height_in ~ Width_in, data = pp)
 
 ht_wt_fit_tidy <- tidy(ht_wt_fit$fit) 
-ht_wt_fit_aug  <- augment(ht_wt_fit$fit) %>%
+ht_wt_fit_aug  <- augment(ht_wt_fit$fit) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
 
 ggplot(data = ht_wt_fit_aug) +

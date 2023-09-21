@@ -40,7 +40,7 @@ knitr::include_graphics("img/fm-speeches.png")
 ## End with 🛑
 
 ```{r echo=FALSE}
-covid_speeches <- read_rds("data/covid-speeches-scot.rds") %>%
+covid_speeches <- read_rds("data/covid-speeches-scot.rds") |>
   print(n = 15)
 ```
 
@@ -56,26 +56,26 @@ scrape_speech <- function(url) {
   
   speech_page <- read_html(url)
 
-  title <- speech_page %>%
-    html_node(".article-header__title") %>%
+  title <- speech_page |>
+    html_node(".article-header__title") |>
     html_text()
 
-  date <- speech_page %>%
-    html_node(".content-data__list:nth-child(1) strong") %>%
-    html_text() %>%
+  date <- speech_page |>
+    html_node(".content-data__list:nth-child(1) strong") |>
+    html_text() |>
     dmy()
 
-  location <- speech_page %>%
-    html_node(".content-data__list+ .content-data__list strong") %>%
+  location <- speech_page |>
+    html_node(".content-data__list+ .content-data__list strong") |>
     html_text()
 
-  abstract <- speech_page %>%
-    html_node(".leader--first-para p") %>%
+  abstract <- speech_page |>
+    html_node(".leader--first-para p") |>
     html_text()
 
-  text <- speech_page %>%
-    html_nodes("#preamble p") %>%
-    html_text() %>%
+  text <- speech_page |>
+    html_nodes("#preamble p") |>
+    html_text() |>
     list()
 
   tibble(
@@ -125,8 +125,8 @@ knitr::include_graphics("img/fm-speeches-links.png")
 ```{r output.lines=10}
 all_speeches_page <- read_html("https://www.gov.scot/collections/first-ministers-speeches/")
 
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
+all_speeches_page |>
+  html_nodes(".collections-list a") |>
   html_attr("href")
 ```
 
@@ -135,9 +135,9 @@ all_speeches_page %>%
 ## COVID-19 URLs *fragments*
 
 ```{r output.lines=10}
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
+all_speeches_page |>
+  html_nodes(".collections-list a") |>
+  html_attr("href") |>
   str_subset("covid-19")
 ```
 
@@ -146,10 +146,10 @@ all_speeches_page %>%
 ## COVID-19 URLs
 
 ```{r output.lines=10}
-all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
-  str_subset("covid-19") %>%
+all_speeches_page |>
+  html_nodes(".collections-list a") |>
+  html_attr("href") |>
+  str_subset("covid-19") |>
   str_c("https://www.gov.scot", .)
 ```
 
@@ -158,10 +158,10 @@ all_speeches_page %>%
 ## Save COVID-19 URLs
 
 ```{r output.lines=10}
-covid_speech_urls <- all_speeches_page %>%
-  html_nodes(".collections-list a") %>%
-  html_attr("href") %>%
-  str_subset("covid-19") %>%
+covid_speech_urls <- all_speeches_page |>
+  html_nodes(".collections-list a") |>
+  html_attr("href") |>
+  str_subset("covid-19") |>
   str_c("https://www.gov.scot", .)
 
 covid_speech_urls
@@ -275,7 +275,7 @@ covid_speeches <- read_rds("data/covid-speeches-scot.rds")
 ```
 
 ```{r}
-covid_speeches %>%
+covid_speeches |>
   print(n = 15)
 ```
 

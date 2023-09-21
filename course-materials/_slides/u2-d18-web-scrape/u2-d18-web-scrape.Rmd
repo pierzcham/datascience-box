@@ -74,7 +74,7 @@ class: middle
 
 .pull-left[
 - The **rvest** package makes basic processing and manipulation of HTML data straight forward
-- It's designed to work with pipelines built with `%>%`
+- It's designed to work with pipelines built with `|>`
 ]
 .pull-right[
 ```{r echo=FALSE,out.width=230,fig.align="right"}

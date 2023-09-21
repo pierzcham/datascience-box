@@ -39,7 +39,7 @@ class: middle
 pp <- read_csv(
   "data/paris-paintings.csv",
   na = c("n/a", "", "NA")
-) %>%
+) |>
   mutate(log_price = log(price))
 ```
 
@@ -51,8 +51,8 @@ pp <- read_csv(
 - Explanatory variables: Width and height
 
 ```{r model-price-width-height}
-pp_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+pp_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Width_in + Height_in, data = pp)
 tidy(pp_fit)
 ```
@@ -80,13 +80,13 @@ $$\widehat{log\_price} = 4.77 + 0.0269 \times width - 0.0133 \times height$$
 p <- plot_ly(pp,
   x = ~Width_in, y = ~Height_in, z = ~log_price,
   marker = list(size = 3, color = "lightgray", alpha = 0.5, 
-                line = list(color = "gray", width = 2))) %>%
-  add_markers() %>%
+                line = list(color = "gray", width = 2))) |>
+  add_markers() |>
   plotly::layout(scene = list(
     xaxis = list(title = "Width (in)"),
     yaxis = list(title = "Height (in)"),
     zaxis = list(title = "log_price")
-  )) %>%
+  )) |>
   config(displayModeBar = FALSE)
 frameWidget(p)
 ```
@@ -97,13 +97,13 @@ frameWidget(p)
 p <- plot_ly(pp,
   x = ~Width_in, y = ~Height_in, z = ~log_price,
   marker = list(size = 3, color = "lightgray", alpha = 0.5, 
-                line = list(color = "gray", width = 2))) %>%
-  add_markers() %>%
+                line = list(color = "gray", width = 2))) |>
+  add_markers() |>
   plotly::layout(scene = list(
     xaxis = list(title = "Width (in)"),
     yaxis = list(title = "Height (in)"),
     zaxis = list(title = "log_price")
-  )) %>%
+  )) |>
   config(displayModeBar = FALSE)
 frameWidget(p)
 ```
@@ -127,10 +127,10 @@ on whether or not the artist is still living
 
 .midi[
 ```{r}
-pp <- pp %>%
+pp <- pp |>
   mutate(artistliving = if_else(artistliving == 0, "Deceased", "Living"))
 
-pp %>%
+pp |>
   count(artistliving)
 ```
 ]
@@ -176,7 +176,7 @@ For simplicity let's focus on the paintings with `Surface < 5000`:
 ]
 .panel[.panel-name[Code]
 ```{r viz-surf-lt-5000-artistliving, fig.show = "hide"}
-pp_Surf_lt_5000 <- pp %>%
+pp_Surf_lt_5000 <- pp |>
   filter(Surface < 5000)
 
 ggplot(data = pp_Surf_lt_5000, 
@@ -239,13 +239,13 @@ explanatory variables.
 ]
 .pull-right-wide[
 ```{r pp-main-int-viz, echo=FALSE, out.width="70%", fig.asp = 0.9}
-pp_main_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+pp_main_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Surface + artistliving, data = pp_Surf_lt_5000)
 pp_main_fit_aug <- augment(pp_main_fit$fit)
 
-pp_int_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+pp_int_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Surface * artistliving, data = pp_Surf_lt_5000)
 pp_int_fit_aug <- augment(pp_int_fit$fit)
 
@@ -284,8 +284,8 @@ p_main /
 
 .midi[
 ```{r model-main-effects}
-pp_main_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+pp_main_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Surface + artistliving, data = pp_Surf_lt_5000)
 tidy(pp_main_fit)
 ```
@@ -332,8 +332,8 @@ p_main
 
 .midi[
 ```{r exp-coefs}
-tidy(pp_main_fit) %>% 
-  mutate(exp_estimate = exp(estimate)) %>%
+tidy(pp_main_fit) |> 
+  mutate(exp_estimate = exp(estimate)) |>
   select(term, estimate, exp_estimate)
 ```
 ]
@@ -373,8 +373,8 @@ p_int
 
 .midi[
 ```{r model-interaction-effects}
-pp_int_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+pp_int_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Surface * artistliving, data = pp_Surf_lt_5000)
 tidy(pp_int_fit)
 ```

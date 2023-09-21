@@ -43,19 +43,19 @@ class: middle
 
 .pull-left[
 ```{r message=FALSE, echo=FALSE}
-ucbadmit %>%
+ucbadmit |>
   print(n = 15)
 ```
 ]
 .pull-right[
 ```{r message=FALSE, echo=FALSE}
-ucbadmit %>%
+ucbadmit |>
   count(gender)
 
-ucbadmit %>%
+ucbadmit |>
   count(dept)
 
-ucbadmit %>%
+ucbadmit |>
   count(admit)
 ```
 ]
@@ -67,16 +67,16 @@ What can you say about the overall gender distribution? Hint: Calculate the foll
 ]
 
 ```{r}
-ucbadmit %>%
+ucbadmit |>
   count(gender, admit)
 ```
 
 ---
 
 ```{r ucbadmit-overall-prop}
-ucbadmit %>%
-  count(gender, admit) %>%
-  group_by(gender) %>%
+ucbadmit |>
+  count(gender, admit) |>
+  group_by(gender) |>
   mutate(prop_admit = n / sum(n))
 ```
 
@@ -112,7 +112,7 @@ What can you say about the gender distribution by department ?
 ]
 
 ```{r}
-ucbadmit %>%
+ucbadmit |>
   count(dept, gender, admit)
 ```
 
@@ -123,8 +123,8 @@ Let's try again... What can you say about the gender distribution by department?
 ]
 
 ```{r}
-ucbadmit %>%
-  count(dept, gender, admit) %>%
+ucbadmit |>
+  count(dept, gender, admit) |>
   pivot_wider(names_from = dept, values_from = n)
 ```
 
@@ -179,16 +179,16 @@ ggplot(ucbadmit, aes(y = gender, fill = admit)) +
 
 .panel[.panel-name[Code]
 ```{r gender-dept-admit-table, eval = FALSE}
-ucbadmit %>%
-  count(dept, gender, admit) %>%
-  group_by(dept, gender) %>%
+ucbadmit |>
+  count(dept, gender, admit) |>
+  group_by(dept, gender) |>
   mutate(
     n_applied  = sum(n),
     prop_admit = n / n_applied
-    ) %>%
-  filter(admit == "Admitted") %>%
-  rename(n_admitted = n) %>%
-  select(-admit) %>%
+    ) |>
+  filter(admit == "Admitted") |>
+  rename(n_admitted = n) |>
+  select(-admit) |>
   print(n = 12)
 ```
 ]
@@ -311,7 +311,7 @@ ucbadmit
 ]
 .pull-right[
 ```{r}
-ucbadmit %>% 
+ucbadmit |> 
   group_by(gender)
 ```
 ]
@@ -324,13 +324,13 @@ ucbadmit %>%
 
 .pull-left[
 ```{r}
-ucbadmit %>% 
+ucbadmit |> 
   group_by(gender)
 ```
 ]
 .pull-right[
 ```{r}
-ucbadmit %>% 
+ucbadmit |> 
   arrange(gender)
 ```
 ]
@@ -343,13 +343,13 @@ ucbadmit %>%
 
 .pull-left[
 ```{r}
-ucbadmit %>% 
+ucbadmit |> 
   group_by(gender)
 ```
 ]
 .pull-right[
 ```{r}
-ucbadmit %>% 
+ucbadmit |> 
   count(gender)
 ```
 ]
@@ -360,20 +360,20 @@ ucbadmit %>%
 
 .pull-left[
 ```{r}
-ucbadmit %>%
-  count(gender, admit) %>%
-  group_by(gender) %>%
-  mutate(prop_admit = n / sum(n)) %>%
+ucbadmit |>
+  count(gender, admit) |>
+  group_by(gender) |>
+  mutate(prop_admit = n / sum(n)) |>
   select(gender, prop_admit)
 ```
 ]
 .pull-right[
 ```{r}
-ucbadmit %>%
-  count(gender, admit) %>%
-  group_by(gender) %>%
-  mutate(prop_admit = n / sum(n)) %>%
-  select(gender, prop_admit) %>%
+ucbadmit |>
+  count(gender, admit) |>
+  group_by(gender) |>
+  mutate(prop_admit = n / sum(n)) |>
+  select(gender, prop_admit) |>
   ungroup()
 ```
 ]
@@ -386,14 +386,14 @@ ucbadmit %>%
 
 .pull-left[
 ```{r}
-ucbadmit %>%
-  group_by(gender) %>%
+ucbadmit |>
+  group_by(gender) |>
   summarise(n = n()) 
 ```
 ]
 .pull-right[
 ```{r}
-ucbadmit %>%
+ucbadmit |>
   count(gender)
 ```
 ]
@@ -404,14 +404,14 @@ ucbadmit %>%
 
 .pull-left[
 ```{r}
-ucbadmit %>%
-  group_by(gender, admit) %>%
+ucbadmit |>
+  group_by(gender, admit) |>
   summarise(n = n()) 
 ```
 ]
 .pull-right[
 ```{r}
-ucbadmit %>%
+ucbadmit |>
   count(gender, admit)
 ```
 ]
@@ -425,7 +425,7 @@ ucbadmit %>%
 
 
 ```{r message=TRUE}
-ucbadmit %>%
-  group_by(gender, admit) %>%
+ucbadmit |>
+  group_by(gender, admit) |>
   summarise(n = n()) 
 ```

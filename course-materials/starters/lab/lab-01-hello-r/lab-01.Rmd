@@ -26,7 +26,7 @@ But you should clean up some of the narrative so that it only includes what you 
 First let's plot the data in the dino dataset:
 
 ```{r plot-dino, fig.height=3, fig.width=6}
-dino_data <- datasaurus_dozen %>%
+dino_data <- datasaurus_dozen |>
   filter(dataset == "dino")
 
 ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
@@ -36,7 +36,7 @@ ggplot(data = dino_data, mapping = aes(x = x, y = y)) +
 And next calculate the correlation between `x` and `y` in this dataset:
 
 ```{r cor-dino}
-dino_data %>%
+dino_data |>
   summarize(r = cor(x, y))
 ```
 

@@ -56,7 +56,7 @@ rel_inc
 
 .midi[
 ```{r}
-rel_inc %>%
+rel_inc |>
   rename( 
     religion = `Religious tradition`, 
     n = `Sample Size` 
@@ -71,16 +71,16 @@ If we want a new variable called `income` with levels such as "Less than $30,000
 ]
 
 ```{r echo=FALSE}
-rel_inc %>%
+rel_inc |>
   rename(
     religion = `Religious tradition`,
     n = `Sample Size`
-  ) %>%
+  ) |>
   pivot_longer( 
     cols = -c(religion, n),   # all but religion and n 
     names_to = "income",  
     values_to = "proportion" 
-  ) %>% 
+  ) |> 
   print(n = 15)
 ```
 
@@ -90,11 +90,11 @@ rel_inc %>%
 
 .midi[
 ```{r}
-rel_inc %>%
+rel_inc |>
   rename(
     religion = `Religious tradition`,
     n = `Sample Size`
-  ) %>%
+  ) |>
   pivot_longer( 
     cols = -c(religion, n),   # all but religion and n 
     names_to = "income",  
@@ -109,16 +109,16 @@ rel_inc %>%
 
 .midi[
 ```{r}
-rel_inc %>%
+rel_inc |>
   rename(
     religion = `Religious tradition`,
     n = `Sample Size`
-  ) %>%
+  ) |>
   pivot_longer(
     cols = -c(religion, n), 
     names_to = "income", 
     values_to = "proportion"
-  ) %>%
+  ) |>
   mutate(frequency = round(proportion * n)) 
 ```
 ]
@@ -128,16 +128,16 @@ rel_inc %>%
 ## Save data
 
 ```{r}
-rel_inc_long <- rel_inc %>% 
+rel_inc_long <- rel_inc |> 
   rename(
     religion = `Religious tradition`,
     n = `Sample Size`
-  ) %>%
+  ) |>
   pivot_longer(
     cols = -c(religion, n), 
     names_to = "income", 
     values_to = "proportion"
-  ) %>%
+  ) |>
   mutate(frequency = round(proportion * n))
 ```
 
@@ -158,7 +158,7 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency)) +
 
 .panel[.panel-name[Recode]
 ```{r}
-rel_inc_long <- rel_inc_long %>%
+rel_inc_long <- rel_inc_long |>
   mutate(religion = case_when(
     religion == "Evangelical Protestant"           ~ "Ev. Protestant",
     religion == "Historically Black Protestant"    ~ "Hist. Black Protestant",
@@ -185,7 +185,7 @@ ggplot(rel_inc_long, aes(y = religion, x = frequency)) +
 
 .panel[.panel-name[Recode]
 ```{r}
-rel_inc_long <- rel_inc_long %>%
+rel_inc_long <- rel_inc_long |>
   mutate(religion = fct_rev(religion)) 
 ```
 ]

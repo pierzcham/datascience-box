@@ -5,7 +5,7 @@ output:
     css: ../hw.css
     tufte_variant: "envisioned"
     highlight: pygments
-link-citations: yes
+link-citations: true
 ---
 
 ```{r include = FALSE}
@@ -80,8 +80,8 @@ You can also find this information [here](https://rstudio-education.github.io/ds
 3.  Recreate the following plot, and describe in context of the data. In your answer, don't forget to label your R chunk as well (where it says `label-me-1`). Your label should be short, informative, shouldn't include spaces, and shouldn't shouldn't repeat a previous label.
 
 ```{r eval = TRUE, echo = FALSE, fig.fullwidth = TRUE}
-accidents %>%
-  mutate(day_of_week_type = if_else(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday")) %>%
+accidents |>
+  mutate(day_of_week_type = if_else(day_of_week %in% c("Saturday", "Sunday"), "Weekend", "Weekday")) |>
   ggplot(aes(x = time, fill = severity)) +
   geom_density(alpha = 0.5) +
   facet_wrap(~day_of_week_type, ncol = 1) +

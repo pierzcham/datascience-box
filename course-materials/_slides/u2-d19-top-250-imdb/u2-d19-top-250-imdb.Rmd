@@ -137,7 +137,7 @@ knitr::include_graphics("img/titles.png")
 
 .pull-left[
 ```{r output.lines=17}
-page %>%
+page |>
   html_nodes(".titleColumn a")
 ```
 ]
@@ -153,8 +153,8 @@ knitr::include_graphics("img/titles.png")
 
 .pull-left[
 ```{r output.lines=16}
-page %>%
-  html_nodes(".titleColumn a") %>%
+page |>
+  html_nodes(".titleColumn a") |>
   html_text()
 ```
 ]
@@ -170,8 +170,8 @@ knitr::include_graphics("img/titles.png")
 
 .pull-left[
 ```{r output.lines=14}
-titles <- page %>%
-  html_nodes(".titleColumn a") %>%
+titles <- page |>
+  html_nodes(".titleColumn a") |>
   html_text()
 
 titles
@@ -203,7 +203,7 @@ knitr::include_graphics("img/years.png")
 
 .pull-left[
 ```{r output.lines=17}
-page %>%
+page |>
   html_nodes(".secondaryInfo")
 ```
 ]
@@ -219,8 +219,8 @@ knitr::include_graphics("img/years.png")
 
 .pull-left[
 ```{r output.lines=16}
-page %>%
-  html_nodes(".secondaryInfo") %>%
+page |>
+  html_nodes(".secondaryInfo") |>
   html_text()
 ```
 ]
@@ -267,9 +267,9 @@ knitr::include_graphics("img/stringr.png")
 ## Clean up the text
 
 ```{r output.lines=15}
-page %>%
-  html_nodes(".secondaryInfo") %>%
-  html_text() %>%
+page |>
+  html_nodes(".secondaryInfo") |>
+  html_text() |>
   str_remove("\\(") # remove (
 ```
 
@@ -278,10 +278,10 @@ page %>%
 ## Clean up the text
 
 ```{r output.lines=14}
-page %>%
-  html_nodes(".secondaryInfo") %>%
-  html_text() %>%
-  str_remove("\\(") %>% # remove (
+page |>
+  html_nodes(".secondaryInfo") |>
+  html_text() |>
+  str_remove("\\(") |> # remove (
   str_remove("\\)") # remove )
 ```
 
@@ -290,11 +290,11 @@ page %>%
 ## Convert to numeric
 
 ```{r output.lines=13}
-page %>%
-  html_nodes(".secondaryInfo") %>%
-  html_text() %>%
-  str_remove("\\(") %>% # remove (
-  str_remove("\\)") %>% # remove )
+page |>
+  html_nodes(".secondaryInfo") |>
+  html_text() |>
+  str_remove("\\(") |> # remove (
+  str_remove("\\)") |> # remove )
   as.numeric()
 ```
 
@@ -304,11 +304,11 @@ page %>%
 
 .pull-left[
 ```{r output.lines=11}
-years <- page %>%
-  html_nodes(".secondaryInfo") %>%
-  html_text() %>%
-  str_remove("\\(") %>% # remove (
-  str_remove("\\)") %>% # remove )
+years <- page |>
+  html_nodes(".secondaryInfo") |>
+  html_text() |>
+  str_remove("\\(") |> # remove (
+  str_remove("\\)") |> # remove )
   as.numeric()
 
 years
@@ -340,7 +340,7 @@ knitr::include_graphics("img/ratings.png")
 
 .pull-left[
 ```{r output.lines=17}
-page %>%
+page |>
   html_nodes("strong")
 ```
 ]
@@ -356,8 +356,8 @@ knitr::include_graphics("img/ratings.png")
 
 .pull-left[
 ```{r output.lines=16}
-page %>%
-  html_nodes("strong") %>%
+page |>
+  html_nodes("strong") |>
   html_text()
 ```
 ]
@@ -373,9 +373,9 @@ knitr::include_graphics("img/ratings.png")
 
 .pull-left[
 ```{r output.lines=15}
-page %>%
-  html_nodes("strong") %>%
-  html_text() %>%
+page |>
+  html_nodes("strong") |>
+  html_text() |>
   as.numeric()
 ```
 ]
@@ -391,9 +391,9 @@ knitr::include_graphics("img/ratings.png")
 
 .pull-left[
 ```{r output.lines=12}
-ratings <- page %>%
-  html_nodes("strong") %>%
-  html_text() %>%
+ratings <- page |>
+  html_nodes("strong") |>
+  html_text() |>
   as.numeric()
 
 ratings
@@ -429,7 +429,7 @@ imdb_top_250
 
 ```{r echo=FALSE}
 options(htmltools.preserve.raw = FALSE)
-imdb_top_250 %>% datatable(options(list(dom = "p", pageLength = 8)), height = 400)
+imdb_top_250 |> datatable(options(list(dom = "p", pageLength = 8)), height = 400)
 ```
 
 ---
@@ -446,15 +446,15 @@ glimpse(imdb_top_250)
 
 - Add a variable for rank
 ```{r}
-imdb_top_250 <- imdb_top_250 %>%
-  mutate(rank = 1:nrow(imdb_top_250)) %>%
+imdb_top_250 <- imdb_top_250 |>
+  mutate(rank = 1:nrow(imdb_top_250)) |>
   relocate(rank)
 ```
 
 ---
 
 ```{r echo=FALSE}
-imdb_top_250 %>%
+imdb_top_250 |>
   print(n = 20)
 ```
 
@@ -473,7 +473,7 @@ Which years have the most movies on the list?
 --
 
 ```{r}
-imdb_top_250 %>% 
+imdb_top_250 |> 
   count(year, sort = TRUE)
 ```
 
@@ -486,8 +486,8 @@ Which 1995 movies made the list?
 --
 
 ```{r}
-imdb_top_250 %>% 
-  filter(year == 1995) %>%
+imdb_top_250 |> 
+  filter(year == 1995) |>
   print(n = 8)
 ```
 
@@ -507,9 +507,9 @@ Visualize the average yearly rating for movies that made it on the top 250 list 
 .panel[.panel-name[Code]
 
 ```{r yearly-avg, fig.show = "hide"}
-imdb_top_250 %>% 
-  group_by(year) %>%
-  summarise(avg_score = mean(rating)) %>%
+imdb_top_250 |> 
+  group_by(year) |>
+  summarise(avg_score = mean(rating)) |>
   ggplot(aes(y = avg_score, x = year)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +

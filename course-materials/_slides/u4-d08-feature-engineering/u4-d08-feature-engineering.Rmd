@@ -70,13 +70,13 @@ test_data  <- testing(email_split)
 ## A simple approach: `mutate()`
 
 ```{r}
-train_data %>%
+train_data |>
   mutate(
     date = lubridate::date(time),
     dow  = wday(time),
     month = month(time)
-    ) %>%
-  select(time, date, dow, month) %>%
+    ) |>
+  select(time, date, dow, month) |>
   sample_n(size = 5) # shuffle to show a variety
 ```
 
@@ -116,7 +116,7 @@ summary(email_rec)
 
 .xsmall[
 ```{r echo=FALSE}
-summary(email_rec) %>% print(n = 21)
+summary(email_rec) |> print(n = 21)
 ```
 ]
 
@@ -125,7 +125,7 @@ summary(email_rec) %>% print(n = 21)
 ## Remove certain variables
 
 ```{r}
-email_rec <- email_rec %>%
+email_rec <- email_rec |>
   step_rm(from, sent_email)
 ```
 
@@ -140,8 +140,8 @@ email_rec
 ## Feature engineer date
 
 ```{r}
-email_rec <- email_rec %>%
-  step_date(time, features = c("dow", "month")) %>%
+email_rec <- email_rec |>
+  step_date(time, features = c("dow", "month")) |>
   step_rm(time)
 ```
 
@@ -156,8 +156,8 @@ email_rec
 ## Discretize numeric variables
 
 ```{r}
-email_rec <- email_rec %>%
-  step_cut(cc, attach, dollar, breaks = c(0, 1)) %>%
+email_rec <- email_rec |>
+  step_cut(cc, attach, dollar, breaks = c(0, 1)) |>
   step_cut(inherit, password, breaks = c(0, 1, 5, 10, 20))
 ```
 
@@ -172,7 +172,7 @@ email_rec
 ## Create dummy variables
 
 ```{r}
-email_rec <- email_rec %>%
+email_rec <- email_rec |>
   step_dummy(all_nominal(), -all_outcomes())
 ```
 
@@ -189,7 +189,7 @@ email_rec
 Variables that contain only a single value
 
 ```{r}
-email_rec <- email_rec %>%
+email_rec <- email_rec |>
   step_zv(all_predictors())
 ```
 
@@ -204,13 +204,13 @@ email_rec
 ## All in one place
 
 ```{r}
-email_rec <- recipe(spam ~ ., data = email) %>%
-  step_rm(from, sent_email) %>%
-  step_date(time, features = c("dow", "month")) %>%               
-  step_rm(time) %>%
-  step_cut(cc, attach, dollar, breaks = c(0, 1)) %>%
-  step_cut(inherit, password, breaks = c(0, 1, 5, 10, 20)) %>%
-  step_dummy(all_nominal(), -all_outcomes()) %>%
+email_rec <- recipe(spam ~ ., data = email) |>
+  step_rm(from, sent_email) |>
+  step_date(time, features = c("dow", "month")) |>               
+  step_rm(time) |>
+  step_cut(cc, attach, dollar, breaks = c(0, 1)) |>
+  step_cut(inherit, password, breaks = c(0, 1, 5, 10, 20)) |>
+  step_dummy(all_nominal(), -all_outcomes()) |>
   step_zv(all_predictors())
 ```
 
@@ -225,7 +225,7 @@ class: middle
 ## Define model
 
 ```{r}
-email_mod <- logistic_reg() %>% 
+email_mod <- logistic_reg() |> 
   set_engine("glm")
 
 email_mod
@@ -238,8 +238,8 @@ email_mod
 **Workflows** bring together models and recipes so that they can be easily applied to both the training and test data.
 
 ```{r}
-email_wflow <- workflow() %>% 
-  add_model(email_mod) %>% 
+email_wflow <- workflow() |> 
+  add_model(email_mod) |> 
   add_recipe(email_rec)
 ```
 
@@ -254,7 +254,7 @@ email_wflow
 ## Fit model to training data
 
 ```{r}
-email_fit <- email_wflow %>% 
+email_fit <- email_wflow |> 
   fit(data = train_data)
 ```
 
@@ -262,7 +262,7 @@ email_fit <- email_wflow %>%
 
 .small[
 ```{r}
-tidy(email_fit) %>% print(n = 31)
+tidy(email_fit) |> print(n = 31)
 ```
 ]
 
@@ -271,7 +271,7 @@ tidy(email_fit) %>% print(n = 31)
 ## Make predictions for test data
 
 ```{r}
-email_pred <- predict(email_fit, test_data, type = "prob") %>% 
+email_pred <- predict(email_fit, test_data, type = "prob") |> 
   bind_cols(test_data) 
 
 email_pred
@@ -283,12 +283,12 @@ email_pred
 
 .pull-left[
 ```{r roc, fig.show="hide"}
-email_pred %>%
+email_pred |>
   roc_curve(
     truth = spam,
     .pred_1,
     event_level = "second"
-  ) %>%
+  ) |>
   autoplot()
 ```
 ]
@@ -303,7 +303,7 @@ email_pred %>%
 
 .pull-left[
 ```{r}
-email_pred %>%
+email_pred |>
   roc_auc(
     truth = spam,
     .pred_1,
@@ -337,13 +337,13 @@ Suppose we decide to label an email as spam if the model predicts the probabilit
 .panel[.panel-name[Code]
 ```{r confusion-50, results = "hide"}
 cutoff_prob <- 0.5
-email_pred %>%
+email_pred |>
   mutate(
     spam      = if_else(spam == 1, "Email is spam", "Email is not spam"),
     spam_pred = if_else(.pred_1 > cutoff_prob, "Email labelled spam", "Email labelled not spam")
-    ) %>%
-  count(spam_pred, spam) %>%
-  pivot_wider(names_from = spam, values_from = n) %>%
+    ) |>
+  count(spam_pred, spam) |>
+  pivot_wider(names_from = spam, values_from = n) |>
   kable(col.names = c("", "Email is not spam", "Email is spam"))
 ```
 ]
@@ -364,13 +364,13 @@ Suppose we decide to label an email as spam if the model predicts the probabilit
 .panel[.panel-name[Code]
 ```{r confusion-25, results = "hide"}
 cutoff_prob <- 0.25
-email_pred %>%
+email_pred |>
   mutate(
     spam      = if_else(spam == 1, "Email is spam", "Email is not spam"),
     spam_pred = if_else(.pred_1 > cutoff_prob, "Email labelled spam", "Email labelled not spam")
-    ) %>%
-  count(spam_pred, spam) %>%
-  pivot_wider(names_from = spam, values_from = n) %>%
+    ) |>
+  count(spam_pred, spam) |>
+  pivot_wider(names_from = spam, values_from = n) |>
   kable(col.names = c("", "Email is not spam", "Email is spam"))
 ```
 ]
@@ -391,13 +391,13 @@ Suppose we decide to label an email as spam if the model predicts the probabilit
 .panel[.panel-name[Code]
 ```{r confusion-75, results = "hide"}
 cutoff_prob <- 0.75
-email_pred %>%
+email_pred |>
   mutate(
     spam      = if_else(spam == 1, "Email is spam", "Email is not spam"),
     spam_pred = if_else(.pred_1 > cutoff_prob, "Email labelled spam", "Email labelled not spam")
-    ) %>%
-  count(spam_pred, spam) %>%
-  pivot_wider(names_from = spam, values_from = n) %>%
+    ) |>
+  count(spam_pred, spam) |>
+  pivot_wider(names_from = spam, values_from = n) |>
   kable(col.names = c("", "Email is not spam", "Email is spam"))
 ```
 ]

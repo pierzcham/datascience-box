@@ -167,7 +167,7 @@ names(edibnb_col_names)
 ## Option 2 - Format text to snake_case
 
 ```{r warning=FALSE}
-edibnb_clean_names <- read_csv("data/edibnb-badnames.csv") %>%
+edibnb_clean_names <- read_csv("data/edibnb-badnames.csv") |>
   janitor::clean_names()
 
 names(edibnb_clean_names)
@@ -196,7 +196,7 @@ read_csv("data/df-na.csv")
 ```
 
 ```{r echo=FALSE}
-read_csv("data/df-na.csv") %>% print(n = 10)
+read_csv("data/df-na.csv") |> print(n = 10)
 ```
 ]
 
@@ -218,7 +218,7 @@ knitr::include_graphics("img/df-na.png")
 ```{r echo=FALSE,message=FALSE,}
 read_csv("data/df-na.csv", 
   na = c("", "NA", ".", "9999",
-         "Not applicable")) %>% 
+         "Not applicable")) |> 
   print(n = 10)
 ```
 ]
@@ -236,7 +236,7 @@ read_csv("data/df-na.csv", col_types = list(col_double(),
 ```{r echo=FALSE}
 read_csv("data/df-na.csv", col_types = list(col_double(), 
                                             col_character(), 
-                                            col_character())) %>%
+                                            col_character())) |>
   print(n = 10)
 ```
 
@@ -304,7 +304,7 @@ knitr::include_graphics("img/fav-food/fav-food-names.png")
 --
 
 ```{r warning=FALSE}
-fav_food <- read_excel("data/favourite-food.xlsx") %>%
+fav_food <- read_excel("data/favourite-food.xlsx") |>
   janitor::clean_names() #<<
 
 fav_food 
@@ -322,7 +322,7 @@ knitr::include_graphics("img/fav-food/fav-food-nas.png")
 
 ```{r warning=FALSE}
 fav_food <- read_excel("data/favourite-food.xlsx",
-                       na = c("N/A", "99999")) %>% #<<
+                       na = c("N/A", "99999")) |> #<<
   janitor::clean_names()
 
 fav_food 
@@ -334,7 +334,7 @@ fav_food
 
 .pull-left-wide[
 ```{r warning=FALSE}
-fav_food <- fav_food %>%
+fav_food <- fav_food |>
   mutate( #<<
     age = if_else(age == "five", "5", age), #<<
     age = as.numeric(age) #<<
@@ -359,7 +359,7 @@ What order are the levels of `ses` listed in?
 
 .pull-left-wide[
 ```{r}
-fav_food %>%
+fav_food |>
   count(ses)
 ```
 ]
@@ -375,10 +375,10 @@ knitr::include_graphics("img/fav-food/fav-food-ses.png")
 
 .pull-left-wide[
 ```{r warning=FALSE}
-fav_food <- fav_food %>%
+fav_food <- fav_food |>
   mutate(ses = fct_relevel(ses, "Low", "Middle", "High")) #<<
 
-fav_food %>%
+fav_food |>
   count(ses)
 ```
 ]
@@ -388,8 +388,8 @@ fav_food %>%
 ## Putting it altogether
 
 ```{r warning=FALSE}
-fav_food <- read_excel("data/favourite-food.xlsx", na = c("N/A", "99999")) %>%
-  janitor::clean_names() %>%
+fav_food <- read_excel("data/favourite-food.xlsx", na = c("N/A", "99999")) |>
+  janitor::clean_names() |>
   mutate(
     age = if_else(age == "five", "5", age), 
     age = as.numeric(age),
@@ -416,7 +416,7 @@ What happened to `ses` again?
 ]
 
 ```{r}
-fav_food_clean %>%
+fav_food_clean |>
   count(ses)
 ```
 
@@ -441,7 +441,7 @@ write_rds(fav_food, file = "data/fav-food-clean.rds")
 
 fav_food_clean <- read_rds("data/fav-food-clean.rds")
 
-fav_food_clean %>%
+fav_food_clean |>
   count(ses)
 ```
 
@@ -483,14 +483,14 @@ sales
 ]
 .pull-right[
 ```{r echo=FALSE}
-sales %>%
+sales |>
   mutate(
     is_brand_name = str_detect(id, "Brand"),
     brand = if_else(is_brand_name, id, NA_character_)
-  ) %>%
-  fill(brand) %>%
-  filter(!is_brand_name) %>%
-  select(brand, id, n) %>%
+  ) |>
+  fill(brand) |>
+  filter(!is_brand_name) |>
+  select(brand, id, n) |>
   mutate(
     id = as.numeric(id),
     n = as.numeric(n)

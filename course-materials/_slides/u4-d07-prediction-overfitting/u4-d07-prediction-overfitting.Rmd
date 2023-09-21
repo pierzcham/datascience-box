@@ -63,10 +63,10 @@ class: middle
 ]
 .panel[.panel-name[Code]
 ```{r spam-mlr, results = "hide"}
-logistic_reg() %>%
-  set_engine("glm") %>%
-  fit(spam ~ ., data = email, family = "binomial") %>%
-  tidy() %>%
+logistic_reg() |>
+  set_engine("glm") |>
+  fit(spam ~ ., data = email, family = "binomial") |>
+  tidy() |>
   print(n = 22)
 ```
 ]
@@ -90,27 +90,27 @@ logistic_reg() %>%
 ## Underfitting and overfitting
 
 ```{r echo=FALSE, out.width="70%", warning = FALSE}
-lm_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+lm_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(y4 ~ x2, data = association)
 
 loess_fit <- loess(y4 ~ x2, data = association)
 
 loess_overfit <- loess(y4 ~ x2, span = 0.05, data = association)
 
-association %>%
-  select(x2, y4) %>%
+association |>
+  select(x2, y4) |>
   mutate(
-    Underfit = augment(lm_fit$fit) %>% select(.fitted) %>% pull(),
-    OK       = augment(loess_fit) %>% select(.fitted) %>% pull(),
-    Overfit  = augment(loess_overfit) %>% select(.fitted) %>% pull(),
-  ) %>%
+    Underfit = augment(lm_fit$fit) |> select(.fitted) %>% pull(),
+    OK       = augment(loess_fit) |> select(.fitted) %>% pull(),
+    Overfit  = augment(loess_overfit) |> select(.fitted) %>% pull(),
+  ) |>
   pivot_longer(
     cols      = Underfit:Overfit,
     names_to  = "fit",
     values_to = "y_hat"
-  ) %>%
-  mutate(fit = fct_relevel(fit, "Underfit", "OK", "Overfit")) %>%
+  ) |>
+  mutate(fit = fct_relevel(fit, "Underfit", "OK", "Overfit")) |>
   ggplot(aes(x = x2)) +
   geom_point(aes(y = y4), color = "darkgray") +
   geom_line(aes(y = y_hat, group = fit, color = fit), size = 1) +
@@ -193,8 +193,8 @@ class: middle
 ## Fit a model to the training dataset
 
 ```{r}
-email_fit <- logistic_reg() %>%
-  set_engine("glm") %>%
+email_fit <- logistic_reg() |>
+  set_engine("glm") |>
   fit(spam ~ ., data = train_data, family = "binomial")
 ```
 
@@ -203,8 +203,8 @@ email_fit <- logistic_reg() %>%
 ## Categorical predictors
 
 ```{r echo=FALSE, out.width="75%", fig.width=10}
-factor_predictors <- train_data %>%
-  select(where(is.factor), -spam) %>%
+factor_predictors <- train_data |>
+  select(where(is.factor), -spam) |>
   names()
 
 p_to_multiple <- ggplot(train_data, aes(x = to_multiple, fill = spam)) +
@@ -252,7 +252,7 @@ p_to_multiple + p_from + p_sent_email + p_winner + p_format + p_re_subj + p_urge
 - `from`: Whether the message was listed as from anyone (this is usually set by default for regular outgoing email)
 
 ```{r}
-train_data %>%
+train_data |>
   count(spam, from)
 ```
 ]
@@ -260,7 +260,7 @@ train_data %>%
 - `sent_email`: Indicator for whether the sender had been sent an email in the last 30 days
 
 ```{r}
-train_data %>%
+train_data |>
   count(spam, sent_email)
 ```
 ]
@@ -272,9 +272,9 @@ train_data %>%
 .small[
 ```{r echo=FALSE, highlight.output=c(14, 15)}
 options(width = 100)
-x <- train_data %>%
-  group_by(spam) %>%
-  select(where(is.numeric)) %>%
+x <- train_data |>
+  group_by(spam) |>
+  select(where(is.numeric)) |>
   skim_without_charts()
 
 print(x, include_summary = FALSE)
@@ -286,8 +286,8 @@ print(x, include_summary = FALSE)
 ## Fit a model to the training dataset
 
 ```{r}
-email_fit <- logistic_reg() %>%
-  set_engine("glm") %>%
+email_fit <- logistic_reg() |>
+  set_engine("glm") |>
   fit(spam ~ . - from - sent_email - viagra, data = train_data, family = "binomial") #<<
 ```
 
@@ -311,8 +311,8 @@ predict(email_fit, test_data)
 ## Predict probabilities on the testing dataset
 
 ```{r}
-email_pred <- predict(email_fit, test_data, type = "prob") %>%
-  bind_cols(test_data %>% select(spam, time))
+email_pred <- predict(email_fit, test_data, type = "prob") |>
+  bind_cols(test_data |> select(spam, time))
 
 email_pred
 ```
@@ -323,8 +323,8 @@ email_pred
 
 .pull-left-wide[
 ```{r highlight.output=c(6, 10)}
-email_pred %>%
-  arrange(desc(.pred_1)) %>%
+email_pred |>
+  arrange(desc(.pred_1)) |>
   print(n = 10)
 ```
 ]
@@ -337,12 +337,12 @@ email_pred %>%
 
 .pull-left[
 ```{r roc, fig.show="hide"}
-email_pred %>%
+email_pred |>
   roc_curve(
     truth = spam,
     .pred_1,
     event_level = "second"
-  ) %>%
+  ) |>
   autoplot()
 ```
 ]
@@ -365,7 +365,7 @@ Find the area under the curve:
 
 .pull-left[
 ```{r}
-email_pred %>%
+email_pred |>
   roc_auc(
     truth = spam,
     .pred_1,

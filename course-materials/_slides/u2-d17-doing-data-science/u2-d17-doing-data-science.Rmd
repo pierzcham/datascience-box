@@ -144,7 +144,7 @@ If the variable names are malformatted, use `janitor::clean_names()`
 
 ```{r message=FALSE, warning=FALSE}
 library(janitor)
-fav_food %>% clean_names()  
+fav_food |> clean_names()  
 ```
 
 ---
@@ -180,7 +180,7 @@ dim(squirrels)
 ## Look at the top...
 
 ```{r}
-squirrels %>% head()
+squirrels |> head()
 ```
 
 ---
@@ -189,7 +189,7 @@ squirrels %>% head()
 
 .small[
 ```{r}
-squirrels %>% tail()
+squirrels |> tail()
 ```
 ]
 
@@ -199,8 +199,8 @@ squirrels %>% tail()
 
 .pull-left[
 ```{r echo=FALSE}
-squirrels %>%
-  select(long, lat) %>%
+squirrels |>
+  select(long, lat) |>
   print(n = 15)
 ```
 ]
@@ -238,8 +238,8 @@ ggplot(squirrels, aes(x = long, y = lat)) +
 
 .panel[.panel-name[Code]
 ```{r easy-solution, fig.show = "hide"}
-squirrels <- squirrels %>%
-  separate(hectare, into = c("NS", "EW"), sep = 2, remove = FALSE) %>%
+squirrels <- squirrels |>
+  separate(hectare, into = c("NS", "EW"), sep = 2, remove = FALSE) |>
   mutate(where = if_else(NS %in% c("01", "42") | EW %in% c("A", "I"), "perimeter", "inside")) 
 
 ggplot(squirrels, aes(x = long, y = lat, color = where)) +
@@ -262,20 +262,20 @@ ggplot(squirrels, aes(x = long, y = lat, color = where)) +
 
 .panel[.panel-name[Code]
 ```{r hex-plot, fig.show = "hide"}
-hectare_counts <- squirrels %>%
-  group_by(hectare) %>%
+hectare_counts <- squirrels |>
+  group_by(hectare) |>
   summarise(n = n()) 
 
-hectare_centroids <- squirrels %>%
-  group_by(hectare) %>%
+hectare_centroids <- squirrels |>
+  group_by(hectare) |>
   summarise(
     centroid_x = mean(long),
     centroid_y = mean(lat)
   )
 
-squirrels %>%
-  left_join(hectare_counts, by = "hectare") %>%
-  left_join(hectare_centroids, by = "hectare") %>%
+squirrels |>
+  left_join(hectare_counts, by = "hectare") |>
+  left_join(hectare_centroids, by = "hectare") |>
   ggplot(aes(x = centroid_x, y = centroid_y, color = n)) +
   geom_hex()
 ```
@@ -288,8 +288,8 @@ squirrels %>%
 ## The squirrel is staring at me!
 
 ```{r}
-squirrels %>%
-  filter(str_detect(other_interactions, "star")) %>%
+squirrels |>
+  filter(str_detect(other_interactions, "star")) |>
   select(shift, age, other_interactions)
 ```
 

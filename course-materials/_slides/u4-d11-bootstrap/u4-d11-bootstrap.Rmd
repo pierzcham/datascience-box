@@ -71,7 +71,7 @@ ggplot(data = edi_3br, mapping = aes(x = rent)) +
 
 ## Observed sample
 
-Sample mean ≈ £`r edi_3br %>% summarise(med_rent = mean(rent)) %>% pull() %>% round()` `r emo::ji("scream")`
+Sample mean ≈ £`r edi_3br |> summarise(med_rent = mean(rent)) %>% pull() %>% round()` `r emo::ji("scream")`
 
 <br>
 
@@ -113,7 +113,7 @@ class: middle
 ## Generate bootstrap means
 
 ```{r eval=FALSE}
-edi_3br %>%
+edi_3br |>
   # specify the variable of interest
   specify(response = rent)
 ```
@@ -123,7 +123,7 @@ edi_3br %>%
 ## Generate bootstrap means
 
 ```{r eval=FALSE}
-edi_3br %>%
+edi_3br |>
   # specify the variable of interest
   specify(response = rent)
   # generate 15000 bootstrap samples
@@ -135,7 +135,7 @@ edi_3br %>%
 ## Generate bootstrap means
 
 ```{r eval=FALSE}
-edi_3br %>%
+edi_3br |>
   # specify the variable of interest
   specify(response = rent)
   # generate 15000 bootstrap samples
@@ -155,11 +155,11 @@ set.seed(834782)
 
 ```{r}
 # save resulting bootstrap distribution
-boot_df <- edi_3br %>%
+boot_df <- edi_3br |>
   # specify the variable of interest
-  specify(response = rent) %>% 
+  specify(response = rent) |> 
   # generate 15000 bootstrap samples
-  generate(reps = 15000, type = "bootstrap") %>% 
+  generate(reps = 15000, type = "bootstrap") |> 
   # calculate the mean of each bootstrap sample
   calculate(stat = "mean")
 ```
@@ -193,7 +193,7 @@ ggplot(data = boot_df, mapping = aes(x = stat)) +
 A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.
 
 ```{r}
-boot_df %>%
+boot_df |>
   summarize(lower = quantile(stat, 0.025),
             upper = quantile(stat, 0.975))
 ```
@@ -204,8 +204,8 @@ boot_df %>%
 
 ```{r include=FALSE}
 # for using these values later
-lower_bound <- boot_df %>% summarize(lower_bound = quantile(stat, 0.025)) %>% pull() %>% round()
-upper_bound <- boot_df %>% summarize(upper_bound = quantile(stat, 0.975)) %>% pull() %>% round()
+lower_bound <- boot_df |> summarize(lower_bound = quantile(stat, 0.025)) %>% pull() %>% round()
+upper_bound <- boot_df |> summarize(upper_bound = quantile(stat, 0.975)) %>% pull() %>% round()
 ```
 
 ```{r echo=FALSE, out.width="70%"}
@@ -256,11 +256,11 @@ Which line (orange dash/dot, blue dash, green dot) represents which confidence l
 ]
 
 ```{r echo=FALSE}
-l90 <- boot_df %>% summarize(lower_bound = quantile(stat, 0.05)) %>% round(2) %>% pull()
-u90 <- boot_df %>% summarize(lower_bound = quantile(stat, 0.95)) %>% round(2) %>% pull()
+l90 <- boot_df |> summarize(lower_bound = quantile(stat, 0.05)) %>% round(2) %>% pull()
+u90 <- boot_df |> summarize(lower_bound = quantile(stat, 0.95)) %>% round(2) %>% pull()
 
-l99 <- boot_df %>% summarize(lower_bound = quantile(stat, 0.005)) %>% round(2) %>% pull()
-u99 <- boot_df %>% summarize(lower_bound = quantile(stat, 0.995)) %>% round(2) %>% pull()
+l99 <- boot_df |> summarize(lower_bound = quantile(stat, 0.005)) %>% round(2) %>% pull()
+u99 <- boot_df |> summarize(lower_bound = quantile(stat, 0.995)) %>% round(2) %>% pull()
 
 ggplot(data = boot_df, mapping = aes(x = stat)) +
   geom_histogram(binwidth = 100) +
@@ -301,10 +301,10 @@ How would you modify it for a 99% confidence interval?
 ]
 
 ```{r eval=FALSE}
-edi_3br %>%
-  specify(response = rent) %>% 
-  generate(reps = 15000, type = "bootstrap") %>% 
-  calculate(stat = "mean") %>%
+edi_3br |>
+  specify(response = rent) |> 
+  generate(reps = 15000, type = "bootstrap") |> 
+  calculate(stat = "mean") |>
   summarize(lower = quantile(stat, 0.025),
             upper = quantile(stat, 0.975))
 ```

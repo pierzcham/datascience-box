@@ -126,7 +126,7 @@ l
 ```{r}
 df
 
-df %>%
+df |>
   pull(y)
 ```
 
@@ -162,8 +162,8 @@ ggplot(cat_lovers, mapping = aes(x = handedness)) +
 ## Use forcats to manipulate factors
 
 ```{r out.width="55%"}
-cat_lovers %>%
-  mutate(handedness = fct_infreq(handedness)) %>% #<<
+cat_lovers |>
+  mutate(handedness = fct_infreq(handedness)) |> #<<
   ggplot(mapping = aes(x = handedness)) +
   geom_bar()
 ```
@@ -187,10 +187,10 @@ if (!file.exists("data/hotels")) {
 }
 hotels <- readr::read_csv("data/hotels.csv")
 
-hotels %>%
-  mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name)) %>%
-  group_by(hotel, arrival_date_month) %>%   # group by hotel type and arrival month
-  summarise(mean_adr = mean(adr)) %>%       # calculate mean_adr for each group
+hotels |>
+  mutate(arrival_date_month = fct_relevel(arrival_date_month, month.name)) |>
+  group_by(hotel, arrival_date_month) |>   # group by hotel type and arrival month
+  summarise(mean_adr = mean(adr)) |>       # calculate mean_adr for each group
   ggplot(aes(
     x = arrival_date_month,
     y = mean_adr,                           # y-axis is the mean_adr calculated above
@@ -231,7 +231,7 @@ class: middle
 .question\[ Calculate and visualise the number of bookings on any given arrival date.\]
 
 ```{r}
-hotels %>%
+hotels |>
   select(starts_with("arrival_"))
 ```
 

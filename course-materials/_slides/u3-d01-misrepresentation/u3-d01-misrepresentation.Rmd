@@ -246,7 +246,7 @@ País read *"Catalan public opinion swings toward 'no' for independence, says su
 catalan <- tibble(
   response = c("No", "Yes", "No answer"),
   rate     = c(45.3, 44.5, 10.2)
-) %>%
+) |>
   mutate(response = fct_relevel(response, "No", "Yes", "No answer"))
 ```
 
@@ -277,7 +277,7 @@ Alberto Cairo. [The truthful art: Data, charts, and maps for communication](http
 
 .pull-left-wide[
 ```{r echo=FALSE, out.width="100%"}
-catalan <- catalan %>%
+catalan <- catalan |>
   mutate(
     low = rate - 2.95,
     high = rate + 2.95

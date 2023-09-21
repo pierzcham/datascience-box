@@ -84,10 +84,10 @@ What happens to the width of the confidence interval as the confidence level inc
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
 set.seed(20171107)
-acs_emp <- acs12 %>% filter(employment == "employed", income > 0)
-acs_10 <- acs_emp %>% sample_n(10) %>%
-  specify(response = income) %>%
-  generate(1000, type = "bootstrap") %>%
+acs_emp <- acs12 |> filter(employment == "employed", income > 0)
+acs_10 <- acs_emp |> sample_n(10) %>%
+  specify(response = income) |>
+  generate(1000, type = "bootstrap") |>
   calculate(stat = "median")
 ggplot(acs_10, aes(x = stat)) + 
   geom_histogram(binwidth = 5000) + 
@@ -100,9 +100,9 @@ ggplot(acs_10, aes(x = stat)) +
 ## Sample size and width of intervals
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
-acs_100 <- acs_emp %>% sample_n(100) %>%
-  specify(response = income) %>%
-  generate(1000, type = "bootstrap") %>%
+acs_100 <- acs_emp |> sample_n(100) %>%
+  specify(response = income) |>
+  generate(1000, type = "bootstrap") |>
   calculate(stat = "median")
 ggplot(acs_100, aes(x = stat)) + 
   geom_histogram(binwidth = 5000) + 
@@ -115,9 +115,9 @@ ggplot(acs_100, aes(x = stat)) +
 ## Sample size and width of intervals
 
 ```{r echo = FALSE, warning=FALSE, message=FALSE}
-acs_500 <- acs_emp %>% sample_n(500) %>%
-  specify(response = income) %>%
-  generate(1000, type = "bootstrap") %>%
+acs_500 <- acs_emp |> sample_n(500) %>%
+  specify(response = income) |>
+  generate(1000, type = "bootstrap") |>
   calculate(stat = "median")
 ggplot(acs_500, aes(x = stat)) + 
   geom_histogram(binwidth = 5000) + 
@@ -270,8 +270,8 @@ ggplot(data = ncbirths, aes(x = weeks)) +
 ```
 
 ```{r echo=FALSE}
-ncbirths %>%
-  filter(!is.na(weeks)) %>%
+ncbirths |>
+  filter(!is.na(weeks)) |>
   summarise(
     min = min(weeks),
     xbar = round(mean(weeks), 2),
@@ -353,10 +353,10 @@ set.seed(20180326)
 ## Computation for CI for a mean
 
 ```{r}
-boot_means <- ncbirths %>%
-  filter(!is.na(weeks)) %>% # remove NAs
-  specify(response = weeks) %>%
-  generate(reps = 1000, type = "bootstrap") %>%
+boot_means <- ncbirths |>
+  filter(!is.na(weeks)) |> # remove NAs
+  specify(response = weeks) |>
+  generate(reps = 1000, type = "bootstrap") |>
   calculate(stat = "mean")
 ggplot(data = boot_means, aes(x = stat)) +
   geom_histogram(binwidth = 0.03)
@@ -367,7 +367,7 @@ ggplot(data = boot_means, aes(x = stat)) +
 ## Length of gestation
 
 ```{r}
-boot_means %>%
+boot_means |>
   summarise(
     lower = quantile(stat, 0.025),
     upper = quantile(stat, 0.975)
@@ -424,11 +424,11 @@ a distribution of bootstrap means.
 ## Computation for HT for a mean
 
 ```{r out.width="50%"}
-boot_means_shifted <- ncbirths %>%
-  filter(!is.na(weeks)) %>% # remove NAs
-  specify(response = weeks) %>%
-  hypothesize(null = "point", mu = 40) %>% # hypothesize step
-  generate(reps = 1000, type = "bootstrap") %>%
+boot_means_shifted <- ncbirths |>
+  filter(!is.na(weeks)) |> # remove NAs
+  specify(response = weeks) |>
+  hypothesize(null = "point", mu = 40) |> # hypothesize step
+  generate(reps = 1000, type = "bootstrap") |>
   calculate(stat = "mean")
 ggplot(data = boot_means_shifted, aes(x = stat)) +
   geom_histogram(binwidth = 0.03) +
@@ -441,8 +441,8 @@ ggplot(data = boot_means_shifted, aes(x = stat)) +
 ## Length of gestation
 
 ```{r}
-boot_means_shifted %>%
-  filter(stat <= 38.33) %>%
+boot_means_shifted |>
+  filter(stat <= 38.33) |>
   summarise(p_value = 2 * (n() / 1000))
 ```
 
@@ -455,9 +455,9 @@ Since p-value less than the significance level, we reject the null hypothesis. T
 ## **infer** structure
 
 ```{r eval=FALSE}
-df %>%
-  specify(response, explanatory) %>% # explanatory optional
-  generate(reps, type) %>% # type: bootstrap, simulate, or permute
+df |>
+  specify(response, explanatory) |> # explanatory optional
+  generate(reps, type) |> # type: bootstrap, simulate, or permute
   calculate(stat)
 ```
 

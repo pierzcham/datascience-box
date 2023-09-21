@@ -72,7 +72,7 @@ text
 ```{r}
 text_df <- tibble(line = 1:12, text = text)
 
-text_df %>% print(n = 12)
+text_df |> print(n = 12)
 ```
 
 ---
@@ -80,8 +80,8 @@ text_df %>% print(n = 12)
 ## What is tidy text?
 
 ```{r}
-text_df %>%
-  unnest_tokens(word, text) %>%
+text_df |>
+  unnest_tokens(word, text) |>
   print(n = 10)
 ```
 

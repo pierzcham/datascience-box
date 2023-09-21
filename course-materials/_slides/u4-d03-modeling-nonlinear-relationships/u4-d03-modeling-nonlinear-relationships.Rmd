@@ -60,8 +60,8 @@ pp <- read_csv("data/paris-paintings.csv", na = c("n/a", "", "NA"))
 ]
 .panel[.panel-name[Code]
 ```{r residuals-plot, fig.show="hide"}
-ht_wt_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+ht_wt_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(Height_in ~ Width_in, data = pp)
 
 ht_wt_fit_aug <- augment(ht_wt_fit$fit) #<<
@@ -244,7 +244,7 @@ ggplot(data = pp, aes(x = Width_in, y = price)) +
 That is, paintings with width < 2.54 m
 
 ```{r}
-pp_wt_lt_100 <- pp %>% 
+pp_wt_lt_100 <- pp |> 
   filter(Width_in < 100)
 ```
 
@@ -298,8 +298,8 @@ Which plot shows a residuals that are uncorrelated with predicted values from th
   
 .pull-left[
 ```{r message=FALSE, echo=FALSE, out.width = "100%"}
-price_wt_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+price_wt_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(price ~ Width_in, data = pp_wt_lt_100)
 price_wt_fit_aug <- augment(price_wt_fit$fit)
 
@@ -316,11 +316,11 @@ ggplot(data = price_wt_fit_aug,
 ]
 .pull-right[
 ```{r message=FALSE, echo=FALSE, out.width = "100%"}
-pp_wt_lt_100 <- pp_wt_lt_100 %>% 
+pp_wt_lt_100 <- pp_wt_lt_100 |> 
   mutate(log_price = log(price))
 
-lprice_wt_fit <- linear_reg() %>%
-  set_engine("lm") %>%
+lprice_wt_fit <- linear_reg() |>
+  set_engine("lm") |>
   fit(log_price ~ Width_in, data = pp_wt_lt_100)
 lprice_wt_fit_aug <- augment(lprice_wt_fit$fit)
 
@@ -375,9 +375,9 @@ ggplot(data = pp_wt_lt_100, mapping = aes(x = Width_in, y = log(price))) +
 ## Models with log transformation
 
 ```{r}
-linear_reg() %>%
-  set_engine("lm") %>%
-  fit(log(price) ~ Width_in, data = pp_wt_lt_100) %>%
+linear_reg() |>
+  set_engine("lm") |>
+  fit(log(price) ~ Width_in, data = pp_wt_lt_100) |>
   tidy()
 ```
 

@@ -6,7 +6,7 @@ output:
     tufte_variant: "envisioned"
     highlight: pygments
     css: ../lab.css
-link-citations: yes
+link-citations: true
 ---
 
 ```{r fig.margin = TRUE, echo = FALSE}
@@ -56,7 +56,7 @@ You can also find this information [here](https://rstudio-education.github.io/ds
 1.  Filter the Denny's dataframe for Alaska (AK) and save the result as `dn_ak`. How many Denny's locations are there in Alaska?
 
 ```{r}
-dn_ak <- dennys %>%
+dn_ak <- dennys |>
   filter(state == "AK")
 nrow(dn_ak)
 ```
@@ -64,7 +64,7 @@ nrow(dn_ak)
 2.  Filter the La Quinta dataframe for Alaska (AK) and save the result as `lq_ak`. How many La Quinta locations are there in Alaska?
 
 ```{r}
-lq_ak <- laquinta %>%
+lq_ak <- laquinta |>
   filter(state == "AK")
 nrow(lq_ak)
 ```
@@ -175,8 +175,8 @@ This function takes five arguments:
     To do so we group by Denny's locations and calculate a new variable that stores the information for the minimum distance.
 
 ```{r eval = FALSE}
-dn_lq_ak_mindist <- dn_lq_ak %>%
-  group_by(address.x) %>%
+dn_lq_ak_mindist <- dn_lq_ak |>
+  group_by(address.x) |>
   summarise(closest = min(distance))
 ```
 
