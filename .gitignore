@@ -9,5 +9,10 @@
 *.key
 *.docx
 
+course-materials/lab-instructions/**/*.html
+course-materials/hw-instructions/**/*.html
+course-materials/lab-instructions/**/*-exported_files/
+course-materials/hw-instructions/**/*-exported_files/
+
 /.quarto/
 _site
