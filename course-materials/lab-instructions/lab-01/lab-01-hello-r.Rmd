@@ -11,7 +11,7 @@ link-citations: true
 ```{marginfigure}
 R is the name of the programming language itself and RStudio is a convenient interface.
 ```
-	
+
 The main goal of this lab is to introduce you to R and RStudio, which we will be using throughout the course both to learn the statistical concepts discussed in the course and to analyze real data and come to informed conclusions.
 
 ```{marginfigure}
@@ -30,25 +30,22 @@ In future labs you'll learn about collaborating on GitHub and produce a single l
 
 # Getting started
 
-Each of your assignments will begin with the following steps. Each lab will
-start with a "Getting started" section but details will be a bit more sparse
-than this. You can always refer back to this lab for a detailed list of the
-steps involved for getting started with an assignment.
+Each of your assignments will begin with the following steps.
+Each lab will start with a "Getting started" section but details will be a bit more sparse than this.
+You can always refer back to this lab for a detailed list of the steps involved for getting started with an assignment.
 
--   In our GitHub Organization, click 'Team' tab do find your team. Click
-	'Memebers' tab lacated under green button 'New Team' and from drop-down menu
-    select 'My teams'. Choose the team from the list.
--   Click on the GitHub repository (in short: 'repo') link located under
-   "Repository" tab. Click the 'Fork' button to copy the repo to your account.
+-   In our GitHub Organization, click 'Team' tab do find your team.
+    Click 'Memebers' tab lacated under green button 'New Team' and from drop-down menu select 'My teams'.
+    Choose the team from the list.
 
--   On GitHub, click on the green **Code** button, select **Use HTTPS** (this
-    might already be selected by default, and if it is, you'll see the text
-    **Clone with HTTPS** as in the image below). Click on the clipboard icon to
-    copy the repo URL.
+-   Click on the GitHub repository (in short: 'repo') link located under "Repository" tab.
+    Click the 'Fork' button to copy the repo to your account.
 
--   Go to RStudio and create a **New Project from Git Repo**. You will need to
-    click on **New Project** --> **Version Control** --> **Git** --> and paste
-    repo url in 'Ropository URL' field.
+-   On GitHub, click on the green **Code** button, select **Use HTTPS** (this might already be selected by default, and if it is, you'll see the text **Clone with HTTPS** as in the image below).
+    Click on the clipboard icon to copy the repo URL.
+
+-   Go to RStudio and create a **New Project from Git Repo**.
+    You will need to click on **New Project** --\> **Version Control** --\> **Git** --\> and paste repo url in the 'Repository URL' field.
 
 -   Hit Create Project, and you're good to go!
 
